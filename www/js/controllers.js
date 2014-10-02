@@ -1,6 +1,8 @@
-angular.module('starter.controllers', [])
+angular.module('warehouse.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('FormCtrl', function($scope) {
+	$scope.pagenumber = 1;
+	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Scan Barcodes", "Assign ID", "Snapshot"];
 })
 
 .controller('FriendsCtrl', function($scope, Friends) {

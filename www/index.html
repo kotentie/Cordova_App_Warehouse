@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <title></title>
@@ -10,23 +10,86 @@
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+-->
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
+<!-- ionic/angularjs js -->
+<script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+<!-- cordova script (this will be a 404 during development) -->
+<script src="cordova.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-  </head>
-    <p>
-    <button id="startScan">Start Scan</button>
-    </p>
+<!-- your app's js -->
+<script src="js/app.js"></script>
+<script src="js/controllers.js"></script>
+<script src="js/services.js"></script>
+</head>
+<body ng-app="warehouse">
+    <div ng-controller="FormCtrl">
+        <ion-header-bar id="header" class="bar bar-header bar-dark">
+            <h1 class="title">{{titles[pagenumber - 1]}}</h1>
+        </ion-header-bar> 
+        <ion-content>
+            <form>
+                 <div ng-show="pagenumber == 1">
 
-    <div id="results"></div>
-  </body>
+                        <div class="list tracking-form">
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="Tracking or RMA #" ng-model="tracking">
+                                  </label>
+                                  <button id="startScan" class="button button-small">
+                                      Scan Barcode
+                                  </button>
+                            </div>
+                        </div>
+                </div>
+                <div ng-show="pagenumber == 2">
+                      <div class="list tracking-form">
+                         <h2> Tracking Number: {{tracking}} </h2>
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="RMA" ng-model="rma">
+                                  </label>
+                                  <button id="startScan" class="button button-small">
+                                      Use Camera
+                                  </button>
+                            </div>
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="Seller Number" >
+                                  </label>
+                            </div>
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="Weight Lbs">
+                                  </label>
+                            </div>
+                        </div>
+                   
+                </div>
+                <div ng-show="pagenumber == 3">
+                    <h2> Tracking: {{tracking}} </h2> 
+                    <h2> RMA: {{rma}} </h2> 
+                    <h2> WH PKG ID: 4321 </h2>
+
+                </div>
+                <div ng-show="pagenumber == 4">
+                    <div class="camera-upload">
+                    <i class="icon ion-camera" style="font-size: 200px;"></i>
+                    <h4> Add label snapshot</h4>
+                    </div>
+                    <button class="button button-full button-positive button-form">
+                        Done
+                    </button>
+                </div>
+            </form>
+                <div id="results">   
+                </div>
+            </ion-content>
+        <ion-footer-bar>
+            <button class="button button-small" ng-hide="pagenumber == 1" ng-click="pagenumber = pagenumber - 1"> Prev </button>
+            <button class="button button-small" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
+        </ion-footer-bar>
+    </div>
+</body>
 </html>
