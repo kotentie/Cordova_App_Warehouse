@@ -33,24 +33,28 @@
                  <div ng-show="pagenumber == 1">
 
                         <div class="list tracking-form">
-                            <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Tracking or RMA #" ng-model="tracking">
+                            <div class="item item-input-inset row">
+                                <label class="item-input-wrapper col col-60">
+                                      <input type="text" placeholder="Tracking or RMA #" ng-model="tracking" name="tracking-rma">
                                   </label>
-                                  <button id="startScan" class="button button-small">
-                                      Scan Barcode
+                                  <button class="button button-small col col-20">
+                                      Search 
+                                  </button>
+                                  <button id="startScan" class="col-20 col button button-small button-positive">
+                                     Scan Barcode
                                   </button>
                             </div>
+                            
                         </div>
                 </div>
                 <div ng-show="pagenumber == 2">
                       <div class="list tracking-form">
                          <h2> Tracking Number: {{tracking}} </h2>
-                            <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
+                            <div class="item item-input-inset row">
+                                <label class="item-input-wrapper col col-80">
                                       <input type="text" placeholder="RMA" ng-model="rma">
                                   </label>
-                                  <button id="startScan" class="button button-small">
+                                  <button ng-click="takePicture();" class="button button-positive button-small col col-20">
                                       Use Camera
                                   </button>
                             </div>
@@ -75,8 +79,9 @@
                 </div>
                 <div ng-show="pagenumber == 4">
                     <div class="camera-upload">
-                    <i class="icon ion-camera" style="font-size: 200px;"></i>
+                    <button class="icon ion-camera" ng-click="takePicture();" style="font-size: 200px;"></button>
                     <h4> Add label snapshot</h4>
+                    <img src="" id="myImage" width="200px">
                     </div>
                     <button class="button button-full button-positive button-form">
                         Done
@@ -86,9 +91,9 @@
                 <div id="results">   
                 </div>
             </ion-content>
-        <ion-footer-bar>
-            <button class="button button-small" ng-hide="pagenumber == 1" ng-click="pagenumber = pagenumber - 1"> Prev </button>
-            <button class="button button-small" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
+        <ion-footer-bar class="row">
+            <button class="button button-small col col-25" ng-hide="pagenumber == 1" ng-click="pagenumber = pagenumber - 1"> Prev </button>
+            <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>
     </div>
 </body>
