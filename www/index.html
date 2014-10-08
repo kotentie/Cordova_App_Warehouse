@@ -35,16 +35,15 @@
                         <div class="list tracking-form">
                             <div class="item item-input-inset row">
                                 <label class="item-input-wrapper col col-60">
-                                      <input type="text" placeholder="Tracking or RMA #" ng-model="tracking" name="tracking-rma">
+                                      <input type="text" id="first-tracking-rma" placeholder="Tracking or RMA #" ng-model="tracking" name="tracking-rma">
                                   </label>
-                                  <button class="button button-small col col-20">
+                                  <button class="button button-small col col-20" ng-click="findData( {{tracking}} );">
                                       Search 
                                   </button>
-                                  <button id="startScan" class="col-20 col button button-small button-positive">
+                                  <button ng-click="startScan();" class="col-20 col button button-small button-positive">
                                      Scan Barcode
                                   </button>
                             </div>
-                            
                         </div>
                 </div>
                 <div ng-show="pagenumber == 2">
@@ -52,7 +51,7 @@
                          <h2> Tracking Number: {{tracking}} </h2>
                             <div class="item item-input-inset row">
                                 <label class="item-input-wrapper col col-80">
-                                      <input type="text" placeholder="RMA" ng-model="rma">
+                                      <input type="text" placeholder="RMA" ng-model="rma" id="rma-number">
                                   </label>
                                   <button ng-click="takePicture();" class="button button-positive button-small col col-20">
                                       Use Camera
@@ -60,12 +59,12 @@
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Seller Number" >
+                                      <input type="text" placeholder="Seller Number" ng-model="seller" id="seller-number">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Weight Lbs">
+                                      <input type="text" placeholder="Weight Lbs" id="weight">
                                   </label>
                             </div>
                         </div>
@@ -74,6 +73,7 @@
                 <div ng-show="pagenumber == 3">
                     <h2> Tracking: {{tracking}} </h2> 
                     <h2> RMA: {{rma}} </h2> 
+                    <h2> Seller #: {{seller}} </h2>
                     <h2> WH PKG ID: 4321 </h2>
 
                 </div>
@@ -83,13 +83,11 @@
                     <h4> Add label snapshot</h4>
                     <img src="" id="myImage" width="200px">
                     </div>
-                    <button class="button button-full button-positive button-form">
+                    <button ng-click="postData();" class="button button-full button-positive button-form">
                         Done
                     </button>
                 </div>
             </form>
-                <div id="results">   
-                </div>
             </ion-content>
         <ion-footer-bar class="row">
             <button class="button button-small col col-25" ng-hide="pagenumber == 1" ng-click="pagenumber = pagenumber - 1"> Prev </button>
