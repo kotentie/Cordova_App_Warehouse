@@ -37,7 +37,7 @@
                                 <label class="item-input-wrapper col col-60">
                                       <input type="text" id="first-tracking-rma" placeholder="Tracking or RMA #" ng-model="tracking" name="tracking-rma">
                                   </label>
-                                  <button class="button button-small col col-20" ng-click="findData( {{tracking}} );">
+                                  <button class="button button-small col col-20" ng-click="findData();">
                                       Search 
                                   </button>
                                   <button ng-click="startScan();" class="col-20 col button button-small button-positive">
@@ -74,18 +74,39 @@
                     <h2> Tracking: {{tracking}} </h2> 
                     <h2> RMA: {{rma}} </h2> 
                     <h2> Seller #: {{seller}} </h2>
-                    <h2> WH PKG ID: 4321 </h2>
-
+                    <h2> WH PKG ID: {{pkgid}}</h2>
+                    <img src="" id="myImage" width="200px">
                 </div>
+
                 <div ng-show="pagenumber == 4">
                     <div class="camera-upload">
                     <button class="icon ion-camera" ng-click="takePicture();" style="font-size: 200px;"></button>
                     <h4> Add label snapshot</h4>
-                    <img src="" id="myImage" width="200px">
                     </div>
                     <button ng-click="postData();" class="button button-full button-positive button-form">
                         Done
                     </button>
+                </div>
+                <div ng-show="pagenumber == 5">
+                      <div class="list tracking-form">
+                         <h2> WH PKG ID: {{pkgid}} </h2>
+                            <div class="item item-input-inset row">
+                                <label class="item-input-wrapper col col-80">
+                                      <input type="text" placeholder="RMA" ng-model="rma" id="rma-number-2">
+                                  </label>
+                            </div>
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="Seller Number" ng-model="seller" id="seller-number-2">
+                                  </label>
+                            </div>
+                            <div class="item item-input-inset">
+                                <label class="item-input-wrapper">
+                                      <input type="text" placeholder="Weight Lbs" id="weight-2">
+                                  </label>
+                            </div>
+                        </div>
+                   
                 </div>
             </form>
             </ion-content>
