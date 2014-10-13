@@ -3,7 +3,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 .controller('FormCtrl', function($scope, $localstorage, $http) {
 	$scope.pagenumber = 1;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Scan Barcodes", "Assign ID", "Snapshot"];
-
+	$scope.photos = [];
 	$scope.pkgid = $localstorage.get('id');
 	$scope.appapiurl = 'https://returns.boxc.com/api';
 
@@ -19,11 +19,13 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		//   console.log($localstorage.get('name'));
 
 		var postinfo = {
-			rma: document.getElementById("rma-number").value,
-		    user_id: document.getElementById("seller-number").value,
-		   	pacid: $scope.pkgid,
-		    image: document.getElementById('myImage').src,
-		    weight: document.getElementById('weight').value
+		 "package": {
+			// rma: document.getElementById("rma-number").value,
+		    "user_id": document.getElementById("seller-number").value,
+		   	"tracking": $scope.pkgid,
+		    "weight": document.getElementById('weight').value,
+		    "photos": $scope.photos
+			}
 		};
 
 
@@ -33,7 +35,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		  $http.post(posturl, postinfo, {headers: {'X-boxc-token': 'BoxcReturns2014'}}).success(function(data, status, headers, config) {
 		  		alert("it worked!");
-		  		alert(JSON.stringify(data, null, 4);
 		
 			  }).error(function(data, status, headers, config) {
 			  	alert("something went wrong posting the data");
@@ -70,22 +71,20 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 					// $scope.rma = tracking.rma; 
 					// $scope.seller = tracking.user_id;
 					// $scope.pkgid = tracking.pacid;
-					// $scope.pagenumber = 3;
+					$scope.pagenumber = 5;
 					alert('something');
 				}
 			}).error(function(data, status, headers, config) {
 				alert('errorers!');
 		   });
-
-
 		}else{
-			document.getElementById("rma-number").value = tracking.rma;
-			document.getElementById("seller-number").value = tracking.user_id;
-			document.getElementById('myImage').src = tracking.img;
 			$scope.rma = tracking.rma; 
 			$scope.seller = tracking.user_id;
 			$scope.pkgid = tracking.pacid;
-			$scope.pagenumber = 3;
+			$scope.weight = tracking.weight;
+			var image = document.getElementById('myImage');
+			image.src = "data:image/jpeg;base64," + tracking.image;
+			$scope.pagenumber = 5;
 		}
 	}
 
@@ -106,16 +105,17 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.takePicture = function(){
 	
-		navigator.camera.getPicture(function(imageURI) {
+		navigator.camera.getPicture(function(imageData) {
 
 	   			var image = document.getElementById('myImage');
-	   	 		image.src = imageURI;
+	   	 		image.src = "data:image/jpeg;base64," + imageData;
+	   	 		$scope.photos.push(imageData);
 
 	  		}, function(err) {
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 50, destinationType: Camera.DestinationType.FILE_URI })	
+	  		}, { quality: 50, destinationType: Camera.DestinationType.DATA_URL })	
 		};
 
 })

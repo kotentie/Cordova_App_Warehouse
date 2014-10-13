@@ -53,9 +53,6 @@
                                 <label class="item-input-wrapper col col-80">
                                       <input type="text" placeholder="RMA" ng-model="rma" id="rma-number">
                                   </label>
-                                  <button ng-click="takePicture();" class="button button-positive button-small col col-20">
-                                      Use Camera
-                                  </button>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
@@ -64,7 +61,7 @@
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Weight Lbs" id="weight">
+                                      <input type="text" placeholder="Weight Lbs" ng-model="weight" id="weight">
                                   </label>
                             </div>
                         </div>
@@ -79,6 +76,7 @@
                 </div>
 
                 <div ng-show="pagenumber == 4">
+                    <img src="" id="myImage" width="200px">
                     <div class="camera-upload">
                     <button class="icon ion-camera" ng-click="takePicture();" style="font-size: 200px;"></button>
                     <h4> Add label snapshot</h4>
@@ -92,17 +90,17 @@
                          <h2> WH PKG ID: {{pkgid}} </h2>
                             <div class="item item-input-inset row">
                                 <label class="item-input-wrapper col col-80">
-                                      <input type="text" placeholder="RMA" ng-model="rma" id="rma-number-2">
+                                      <input type="text" ng-model="rma" id="rma-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Seller Number" ng-model="seller" id="seller-number-2">
+                                      <input type="text" ng-model="seller" id="seller-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Weight Lbs" id="weight-2">
+                                      <input type="text" ng-model="weight" id="weight-2">
                                   </label>
                             </div>
                         </div>
