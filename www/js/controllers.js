@@ -69,7 +69,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 				}
 			}).error(function(data, status, headers, config) {
-				alert('errors happened!');
+				alert('errors happened:' + status);
 		});
 	}
 

@@ -33,22 +33,24 @@
                  <div ng-show="pagenumber == 1">
 
                         <div class="list tracking-form">
+                            <h3 class="span-title"> Tracking or RMA # </h3>
+
                             <div class="item item-input-inset row">
-                                <label class="item-input-wrapper col col-60">
-                                      <input type="text" id="first-tracking-rma" placeholder="Tracking or RMA #" ng-model="tracking" name="tracking-rma">
+                                 <label class="item-input-wrapper col col-80">
+                                      <input type="text" id="first-tracking-rma" placeholder="ex: 1283F23DK" ng-model="tracking" name="tracking-rma">
                                   </label>
                                   <button class="button button-small col col-20" ng-click="findData();">
                                       Search 
                                   </button>
-                                  <button ng-click="startScan();" class="col-20 col button button-small button-positive">
-                                     Scan Barcode
-                                  </button>
                             </div>
                         </div>
+                        <button ng-click="startScan();" class="button button-full button-positive button-form">
+                            Scan Barcode
+                     </button>
                 </div>
                 <div ng-show="pagenumber == 2">
                       <div class="list tracking-form">
-                         <h2> Tracking Number: {{tracking}} </h2>
+                         <h3> Tracking Number: {{tracking}} </h3>
                                 <label class="item item-input item-stacked-label">
                                             <span class="input-label">RMA</span>
                                       <input type="text" placeholder="ex: 12342" ng-model="rma" id="rma-number">
@@ -71,7 +73,7 @@
                     <div class="camera-upload">
                         <div class="take-picture-button">
                             <button class="icon ion-camera" ng-click="takePicture();"></button>
-                            <h4> Add label snapshot</h4>
+                            <h4> Add label photos</h4>
                         </div>    
                     <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
@@ -80,11 +82,13 @@
                 </div>
 
                 <div ng-show="pagenumber == 4">
+                    <div class="confirm-info">
                     <h2> Tracking: {{tracking}} </h2> 
                     <h2> RMA: {{rma}} </h2> 
                     <h2> Seller #: {{seller}} </h2>
                     <h2> Weight: {{weight}} </h2>
                     <h2> WH PKG ID: {{pkgid}}</h2>
+                    </div>
                     <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px" >
                     <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" >
 
@@ -124,15 +128,12 @@
                          <button ng-click="updateData(1);" class="button button-full button-positive button-form">
                         Update
                     </button>
-                   <button ng-click="alert(photos);" class="button button-full button-assertive button-form">
-                        Show photo array
-                    </button>
                 </div>
             </form>
             </ion-content>
-        <ion-footer-bar class="row" ng-hide=" pagenumber == 2 || pagenumber == 5 ">
-            <button class="button button-small col col-25" ng-hide="pagenumber == 1 || pagenumber == 5 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
-            <button class="button button-small col col-25" ng-hide="pagenumber == 2 || pagenumber == 5 || pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
+        <ion-footer-bar class="row" ng-hide="pagenumber == 2 || pagenumber == 5 ">
+            <button class="button button-small col col-25" ng-hide="pagenumber == 1 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
+            <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>
     </div>
 </body>
