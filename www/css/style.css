@@ -7,22 +7,28 @@
 
 
 .camera-upload {
-	width: 300px;
+	width: 100%;
+}
+
+.camera-text{
+	margin-top: 40px;
+	width: 400px;
 	margin-right: auto;
 	margin-left: auto;
 }
 
 .take-picture-button{
+	margin-top: 40px;
 	width: 200px;
 	margin-right: auto;
 	margin-left: auto;
 }
 
 .ion-camera{
-	font-size: 184px;
-	height: 200px;
+	font-size: 100px;
 	background: white;
-	border: none;
+	width: 200px;
+
 }
 
 

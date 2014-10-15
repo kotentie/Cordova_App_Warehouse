@@ -73,10 +73,12 @@
                     <div class="camera-upload">
                         <div class="take-picture-button">
                             <button class="icon ion-camera" ng-click="takePicture();"></button>
-                            <h4> Add label photos</h4>
-                        </div>    
-                    <h2> WH PKG ID: {{pkgid}}</h2>
+                        </div>
+                    <div class="camera-text">
+                        <h4> Write WHID on package and take photos</h4> 
+                        <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
+                </div>
                     <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == false">
                     <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == true">
                 </div>
@@ -131,7 +133,7 @@
                 </div>
             </form>
             </ion-content>
-        <ion-footer-bar class="row" ng-hide="pagenumber == 2 || pagenumber == 5 ">
+        <ion-footer-bar class="row" ng-hide="pagenumber == 2 || pagenumber == 5">
             <button class="button button-small col col-25" ng-hide="pagenumber == 1 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
             <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>
