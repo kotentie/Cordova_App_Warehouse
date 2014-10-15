@@ -10,12 +10,30 @@
 }
 
 .camera-upload {
-	width: 170px;
+	width: 300px;
 	margin-right: auto;
 	margin-left: auto;
+}
+
+.take-picture-button{
+	width: 200px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.ion-camera{
+	font-size: 170px;
+	height: 200px;
+	background: white;
+	border: none;
 }
 
 
 .bar-footer {
 	height: 15%;
+}
+
+.button-form {
+	margin-top: 20px;
+	margin-bottom: 60px;
 }

@@ -49,39 +49,47 @@
                 <div ng-show="pagenumber == 2">
                       <div class="list tracking-form">
                          <h2> Tracking Number: {{tracking}} </h2>
-                            <div class="item item-input-inset row">
-                                <label class="item-input-wrapper col col-80">
-                                      <input type="text" placeholder="RMA" ng-model="rma" id="rma-number">
+                                <label class="item item-input item-stacked-label">
+                                            <span class="input-label">RMA</span>
+                                      <input type="text" placeholder="ex: 12342" ng-model="rma" id="rma-number">
                                   </label>
-                            </div>
-                            <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Seller Number" ng-model="seller" id="seller-number">
+                                <label class="item item-input item-stacked-label">
+                                         <span class="input-label">Seller Number</span>
+                                      <input type="text" placeholder="ex: 2343" ng-model="seller" id="seller-number">
                                   </label>
-                            </div>
-                            <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
-                                      <input type="text" placeholder="Weight Lbs" ng-model="weight" id="weight">
+                                <label class="item item-input item-stacked-label">
+                                        <span class="input-label">Weight in KG</span>
+                                      <input type="text" placeholder="0.38" ng-model="weight" id="weight">
                                   </label>
-                            </div>
                         </div>
+                   <button ng-click="postData();" class="button button-full button-positive button-form">
+                        Post
+                    </button>     
                    
                 </div>
                 <div ng-show="pagenumber == 3">
-                    <h2> Tracking: {{tracking}} </h2> 
-                    <h2> RMA: {{rma}} </h2> 
-                    <h2> Seller #: {{seller}} </h2>
+                    <div class="camera-upload">
+                        <div class="take-picture-button">
+                            <button class="icon ion-camera" ng-click="takePicture();"></button>
+                            <h4> Add label snapshot</h4>
+                        </div>    
                     <h2> WH PKG ID: {{pkgid}}</h2>
-                    <img src="" id="myImage" width="200px">
+                    </div>
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == false">
+                    <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == true">
                 </div>
 
                 <div ng-show="pagenumber == 4">
-                    <img src="" id="myImage" width="200px">
-                    <div class="camera-upload">
-                    <button class="icon ion-camera" ng-click="takePicture();" style="font-size: 200px;"></button>
-                    <h4> Add label snapshot</h4>
-                    </div>
-                    <button ng-click="postData();" class="button button-full button-positive button-form">
+                    <h2> Tracking: {{tracking}} </h2> 
+                    <h2> RMA: {{rma}} </h2> 
+                    <h2> Seller #: {{seller}} </h2>
+                    <h2> Weight: {{weight}} </h2>
+                    <h2> WH PKG ID: {{pkgid}}</h2>
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px" >
+                    <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" >
+
+
+                    <button ng-click="updateData();" class="button button-full button-positive button-form">
                         Done
                     </button>
                 </div>
@@ -89,28 +97,42 @@
                       <div class="list tracking-form">
                          <h2> WH PKG ID: {{pkgid}} </h2>
                             <div class="item item-input-inset row">
-                                <label class="item-input-wrapper col col-80">
+                                <label class="item-input-wrapper">
+                                        <span class="input-label">RMA</span>
+
                                       <input type="text" ng-model="rma" id="rma-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
+                                    <span class="input-label">Seller id</span>
                                       <input type="text" ng-model="seller" id="seller-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
+                                        <span class="input-label">Weight</span>
                                       <input type="text" ng-model="weight" id="weight-2">
                                   </label>
                             </div>
                         </div>
-                   
+                        <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px">
+                        <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" >
+                        <button ng-click="takePicture();" class="button button-full button-assertive button-form">
+                        Add more Photos
+                    </button>
+                         <button ng-click="updateData(1);" class="button button-full button-positive button-form">
+                        Update
+                    </button>
+                   <button ng-click="alert(photos);" class="button button-full button-assertive button-form">
+                        Show photo array
+                    </button>
                 </div>
             </form>
             </ion-content>
-        <ion-footer-bar class="row">
-            <button class="button button-small col col-25" ng-hide="pagenumber == 1" ng-click="pagenumber = pagenumber - 1"> Prev </button>
-            <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
+        <ion-footer-bar class="row" ng-hide=" pagenumber == 2 || pagenumber == 5 ">
+            <button class="button button-small col col-25" ng-hide="pagenumber == 1 || pagenumber == 5 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
+            <button class="button button-small col col-25" ng-hide="pagenumber == 2 || pagenumber == 5 || pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>
     </div>
 </body>
