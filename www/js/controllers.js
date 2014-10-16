@@ -2,10 +2,13 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 .controller('FormCtrl', function($scope, $localstorage, $http) {
 	$scope.pagenumber = 1;
-	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Scan Barcodes", "Assign ID", "Snapshot"];
+	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
 	$scope.photos = [];
 	$scope.oldphotos = [];
 	$scope.appapiurl = 'https://returns.boxc.com/api';
+	$scope.externalphotos = false;
+	$scope.internalphotos = false;
+
 
 
 	$scope.postData = function() {
@@ -59,13 +62,19 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 				if(tracking.packages.length == 0){
 					$scope.pagenumber = 2;
+					$scope.$apply($scope.tracking = value);
+					$scope.$apply(document.getElementById("first-tracking-rma").value = value);
 				}else{
 					$scope.rma = tracking.packages[0].rma; 
 					$scope.seller = tracking.packages[0].user_id;
 					$scope.weight = tracking.packages[0].weight;
-					$scope.oldphotos = tracking.packages[0].photos;
 					$scope.pkgid = tracking.packages[0].id;
 					$scope.pagenumber = 5;
+					$scope.oldphotos = tracking.packages[0].photos;
+
+					if(tracking.packages[0].photos.length > 0){
+						$scope.externalphotos = true;
+					}
 
 				}
 			}).error(function(data, status, headers, config) {
@@ -78,8 +87,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	  cordova.plugins.barcodeScanner.scan(
 	    function (result) {
 	      var elem = document.getElementById("first-tracking-rma");
-	      elem.value = result.text;
-	      $scope.tracking = result.text;
+	      $scope.$apply(elem.value = result.text);
+	      $scope.$apply($scope.tracking = result.text);
 	      $scope.findData(result.text);
 	    }, 
 	    function (error) {
@@ -111,8 +120,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
-		  		$scope.pagenumber = 1;
-		  		resetVars();
+		  		$scope.resetVars();
 			  }).error(function(data, status, headers, config) {
 			  	alert("something went wrong posting the data");
 			  });
@@ -120,12 +128,22 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.resetVars = function() {
-		$scope.rma = null; 
-		$scope.seller = null;
-		$scope.weight = null;
-		$scope.photos = [];
-		$scope.pkgid = null;
-		$scope.oldphotos = [];
+		$scope.pagenumber = 1;
+		$scope.$apply($scope.rma = null); 
+		$scope.$apply($scope.seller = null);
+		$scope.$apply($scope.weight = null);
+		$scope.$apply($scope.photos = []);
+		$scope.$apply($scope.pkgid = null);
+		$scope.$apply($scope.oldphotos = []);
+		document.getElementById("first-tracking-rma").value = null;
+		document.getElementById('rma-number-2').value = null;
+		document.getElementById('weight-2').value = null;
+		document.getElementById("seller-number-2").value = null;
+		document.getElementById('rma-number').value = null;
+		document.getElementById('weight').value = null;
+		document.getElementById("seller-number").value = null;
+		$scope.internalphotos = false;
+		$scope.externalphotos = false;
 
 	}
 
@@ -133,6 +151,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	
 		navigator.camera.getPicture(function(imageData) {
 	   	 		$scope.$apply($scope.photos.push(imageData));
+	   	 		$scope.internalphotos = true;
 
 	  		}, function(err) {
 

@@ -53,18 +53,18 @@
                          <h3> Tracking Number: {{tracking}} </h3>
                                 <label class="item item-input item-stacked-label">
                                             <span class="input-label">RMA</span>
-                                      <input type="text" placeholder="ex: 12342" ng-model="rma" id="rma-number">
+                                      <input type="tel" placeholder="ex: 12342" ng-model="rma" id="rma-number">
                                   </label>
                                 <label class="item item-input item-stacked-label">
                                          <span class="input-label">Seller Number</span>
-                                      <input type="text" placeholder="ex: 2343" ng-model="seller" id="seller-number">
+                                      <input type="tel" placeholder="ex: 2343" ng-model="seller" id="seller-number">
                                   </label>
                                 <label class="item item-input item-stacked-label">
                                         <span class="input-label">Weight in KG</span>
-                                      <input type="text" placeholder="0.38" ng-model="weight" id="weight">
+                                      <input type="tel" placeholder="0.38" ng-model="weight" id="weight">
                                   </label>
                         </div>
-                   <button ng-click="postData();" class="button button-full button-positive button-form">
+                   <button ng-click="postData();" class="button button-full button-positive button-form button-bottom">
                         Post
                     </button>     
                    
@@ -79,8 +79,8 @@
                         <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
                 </div>
-                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == false">
-                    <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="photosource == true">
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="internalphotos == false">
+                    <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="externalphotos == false">
                 </div>
 
                 <div ng-show="pagenumber == 4">
@@ -91,11 +91,10 @@
                     <h2> Weight: {{weight}} </h2>
                     <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
-                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px" >
-                    <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" >
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px" ng-hide="externalphotos == false" >
+                    <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" ng-hide="internalphotos == false">
 
-
-                    <button ng-click="updateData();" class="button button-full button-positive button-form">
+                    <button ng-click="updateData();" class="button button-full button-positive button-form button-bottom">
                         Done
                     </button>
                 </div>
@@ -105,20 +104,19 @@
                             <div class="item item-input-inset row">
                                 <label class="item-input-wrapper">
                                         <span class="input-label">RMA</span>
-
-                                      <input type="text" ng-model="rma" id="rma-number-2">
+                                      <input type="tel" ng-model="rma" id="rma-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
                                     <span class="input-label">Seller id</span>
-                                      <input type="text" ng-model="seller" id="seller-number-2">
+                                      <input type="tel" ng-model="seller" id="seller-number-2">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
                                         <span class="input-label">Weight</span>
-                                      <input type="text" ng-model="weight" id="weight-2">
+                                      <input type="tel" ng-model="weight" id="weight-2">
                                   </label>
                             </div>
                         </div>
@@ -131,9 +129,12 @@
                         Update
                     </button>
                 </div>
+            <button ng-click="resetVars();" class="button button-full button-form" ng-hide="pagenumber != 5">
+                        Reset
+                    </button>
             </form>
             </ion-content>
-        <ion-footer-bar class="row" ng-hide="pagenumber == 2 || pagenumber == 5">
+        <ion-footer-bar class="row" ng-hide="pagenumber == 5">
             <button class="button button-small col col-25" ng-hide="pagenumber == 1 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
             <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>
