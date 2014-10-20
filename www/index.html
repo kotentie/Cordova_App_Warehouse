@@ -37,7 +37,7 @@
 
                             <div class="item item-input-inset row">
                                  <label class="item-input-wrapper col col-80">
-                                      <input type="text" id="first-tracking-rma" placeholder="ex: 1283F23DK" ng-model="tracking" name="tracking-rma">
+                                      <input type="text" id="first-tracking-rma" placeholder="ex: 1283F23DK" ng-model="tracking" name="tracking-rma" autofocus>
                                   </label>
                                   <button class="button button-small col col-20" ng-click="findData();">
                                       Search 
@@ -53,7 +53,7 @@
                          <h3> Tracking Number: {{tracking}} </h3>
                                 <label class="item item-input item-stacked-label">
                                             <span class="input-label">RMA</span>
-                                      <input type="text" placeholder="ex: 12342" ng-model="rma" id="rma-number">
+                                      <input type="text" placeholder="ex: 12342" ng-model="rma" id="rma-number" autofocus>
                                   </label>
                                 <label class="item item-input item-stacked-label">
                                          <span class="input-label">Seller Number</span>
@@ -79,10 +79,12 @@
                         <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
                 </div>
-                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="internalphotos == false">
-                    <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-hide="externalphotos == false">
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="200px" ng-if="photo.length > 10">
+                    <img src="{{photo}}" ng-repeat="photo in photos" width="200px" ng-if="photo.length > 10">
+                    <button ng-click="pagenumber = pagenumber + 1" class="button button-full button-balanced button-form button-bottom">
+                        Done Taking Photos
+                    </button>
                 </div>
-
                 <div ng-show="pagenumber == 4">
                     <div class="confirm-info">
                     <h2> Tracking: {{tracking}} </h2> 
@@ -91,8 +93,8 @@
                     <h2> Weight: {{weight}} </h2>
                     <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
-                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px" ng-hide="externalphotos == false" >
-                    <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" ng-hide="internalphotos == false">
+                    <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" class="package-picture" ng-if="photo.length > 10">
+                    <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" class="package-picture" ng-if="oldphoto.length > 10">
 
                     <button ng-click="updateData();" class="button button-full button-positive button-form button-bottom">
                         Done
@@ -104,7 +106,7 @@
                             <div class="item item-input-inset">
                                 <label class="item-input-wrapper">
                                         <span class="input-label">RMA</span>
-                                      <input type="text" ng-model="rma" id="rma-number-2">
+                                      <input type="text" ng-model="rma" id="rma-number-2" autofocus>
                                   </label>
                             </div>
                             <div class="item item-input-inset">
@@ -120,21 +122,24 @@
                                   </label>
                             </div>
                         </div>
-                        <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" width="100px">
-                        <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos" width="100px" >
-                        <button ng-click="takePicture();" class="button button-full button-assertive button-form">
+                        <img src="data:image/jpeg;base64,{{photo}}" ng-repeat="photo in photos" class="package-picture" ng-if="photo.length > 10">
+                        <img src="{{oldphoto}}" ng-repeat="oldphoto in oldphotos"  class="package-picture" ng-if="oldphoto.length > 10" >
+                        <button ng-click="takePicture();" class="button button-full button-balanced button-form">
                         Add more Photos
                     </button>
                          <button ng-click="updateData(1);" class="button button-full button-positive button-form">
                         Update
                     </button>
                 </div>
-            <button ng-click="resetVars();" class="button button-full button-form" ng-hide="pagenumber != 5">
-                        Reset
-                    </button>
+                <div ng-show="pagenumber == 6">
+                    <h1> Success </h1>
+                </div>
+            <button ng-click="resetVars();" class="button button-full button-form button-assertive" ng-hide="pagenumber == 1 || pagenumber == 6">
+                Reset
+                </button>
             </form>
             </ion-content>
-        <ion-footer-bar class="row" ng-hide="pagenumber == 5">
+        <ion-footer-bar class="row" ng-hide="pagenumber > 0">
             <button class="button button-small col col-25" ng-hide="pagenumber == 1 " ng-click="pagenumber = pagenumber - 1"> Prev </button>
             <button class="button button-small col col-25" ng-hide="pagenumber == 4" ng-click="pagenumber = pagenumber + 1"> Next </button>
         </ion-footer-bar>

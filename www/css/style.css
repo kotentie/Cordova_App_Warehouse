@@ -48,6 +48,15 @@
 		font-size: 18px;
 }
 
+.package-picture {
+	width: 200px;
+	transform: rotate(90deg);
+	-webkit-transform: rotate(90deg);
+	float: left;
+	margin: 10px;
+	display: inline-block; 
+
+}
 
 h3 {
 	margin-left: 10px;

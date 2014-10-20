@@ -1,13 +1,13 @@
 angular.module('warehouse.controllers', ['warehouse.services'])
 
 .controller('FormCtrl', function($scope, $localstorage, $http) {
+
+
 	$scope.pagenumber = 1;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
 	$scope.photos = [];
 	$scope.oldphotos = [];
 	$scope.appapiurl = 'https://returns.boxc.com/api';
-	$scope.externalphotos = false;
-	$scope.internalphotos = false;
 
 
 
@@ -18,14 +18,30 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		//   console.log($localstorage.get('name'));
 
 		value = String(value);
+		userId = parseInt(document.getElementById("seller-number").value);
+		weight = document.getElementById('weight').value;
+		rma = document.getElementById('rma-number').value;
+
+		if (rma == ""){
+			rma = 0;
+		}
+
+
+		if (weight == ""){
+			weight = 0;
+		}
+
+		if(isNaN(userId)){
+			userId = 0; 
+		}
 
 		var postinfo = {
 			 "package": {
-			    "user_id": parseInt(document.getElementById("seller-number").value),
-			    "rma": document.getElementById('rma-number').value,
+			    "user_id": userId,
+			    "rma": rma,
 			   	"tracking": value,
 			   	"barcodes": ["rma1235","sku01924122x"],
-			    "weight": document.getElementById('weight').value,
+			    "weight": weight,
 			    "photos": $scope.photos,
             	"return_exception": "Address not known",
             	"status": "Pending"
@@ -72,10 +88,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 					$scope.pagenumber = 5;
 					$scope.oldphotos = tracking.packages[0].photos;
 
-					if(tracking.packages[0].photos.length > 0){
-						$scope.externalphotos = true;
-					}
-
 				}
 			}).error(function(data, status, headers, config) {
 				alert("something went wrong with the GET request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
@@ -120,6 +132,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
+		  		$scope.$apply($scope.pagenumber = 6);
 		  		$scope.resetVars();
 			  }).error(function(data, status, headers, config) {
 			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
@@ -128,30 +141,15 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.resetVars = function() {
-		$scope.pagenumber = 1;
-		$scope.$apply($scope.rma = null); 
-		$scope.$apply($scope.seller = null);
-		$scope.$apply($scope.weight = null);
-		$scope.$apply($scope.photos = []);
-		$scope.$apply($scope.pkgid = null);
-		$scope.$apply($scope.oldphotos = []);
-		document.getElementById("first-tracking-rma").value = null;
-		document.getElementById('rma-number-2').value = null;
-		document.getElementById('weight-2').value = null;
-		document.getElementById("seller-number-2").value = null;
-		document.getElementById('rma-number').value = null;
-		document.getElementById('weight').value = null;
-		document.getElementById("seller-number").value = null;
-		$scope.internalphotos = false;
-		$scope.externalphotos = false;
-
+		setTimeout(function(){
+   			location.reload(false);
+		}, 100);
 	}
 
 	$scope.takePicture = function(){
 	
 		navigator.camera.getPicture(function(imageData) {
 	   	 		$scope.$apply($scope.photos.push(imageData));
-	   	 		$scope.internalphotos = true;
 
 	  		}, function(err) {
 
