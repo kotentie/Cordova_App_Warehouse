@@ -127,6 +127,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var extrafieldarr = [];
 		jQuery('.extrafieldedit').each(function(i, obj){
 			if(jQuery(obj).val().length > 1){
+				alert(jQuery(obj).val());
 				extrafieldarr.push(jQuery(obj).val());
 			}
 		});
@@ -148,6 +149,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 				}
 			};
 		}
+
+		alert(JSON.stringify(extrafieldarr, null, 4));
 
 		var puturl = $scope.appapiurl + '/packages/' + $scope.pkgid;
 

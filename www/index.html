@@ -68,10 +68,10 @@
                                       <input type="text" class="form-input extrafield">
                                   </label>
                             <button ng-click="addField('Barcode');" class="button button-small button-royal"> 
-                                Add Extra Barcode
+                                Add a Barcode
                             </button>
                             <button ng-click="addField('RMA');" class="button button-small button-royal"> 
-                                RMA
+                                Add RMA Number
                             </button>  
                         </div>
                    <button ng-click="postData();" class="button button-full button-positive button-form button-bottom">
@@ -113,21 +113,21 @@
                 <div ng-show="pagenumber == 5">
                       <div class="list tracking-form">
                         <h2> Tracking: {{tracking}} </h2>
-                         <h2> WH PKG ID: {{pkgid}} </h2>
+                         <h2 style="margin-bottom: 20px;"> WH PKG ID: {{pkgid}} </h2>
                             <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
+                                <label class="item item-input item-stacked-label">
                                         <span class="input-label">RMA:</span>
                                       <input type="text" class="form-input" ng-model="rma" id="rma-number-2"  ng-keypress="pressEnter($event);">
                                   </label>
                             </div>
                             <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
+                                <label class="item item-input item-stacked-label">
                                     <span class="input-label">Seller id:</span>
                                       <input type="tel" class="form-input" ng-model="seller" id="seller-number-2" >
                                   </label>
                             </div>
                             <div class="item item-input-inset">
-                                <label class="item-input-wrapper">
+                                <label class="item item-input item-stacked-label">
                                         <span class="input-label">Weight:</span>
                                       <input type="tel" class="form-input" ng-model="weight" id="weight-2" >
                                   </label>
@@ -141,7 +141,7 @@
                             <div class="item item-input-inset"  ng-repeat="displayextrafield in displayextrafields">
                                 <label class="item item-input item-stacked-label">
                                         <span class="input-label">Extra RMA/Barcode:</span>
-                                      <input type="text" class="form-input extrafield" value="{{displayextrafield}}">
+                                      <input type="text" class="form-input extrafieldedit" value="{{displayextrafield}}">
                                   </label>
                             </div>
                         </div>

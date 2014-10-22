@@ -44,21 +44,33 @@
 	font-size: 18px;
 }
 
-.button-small.button {
-		font-size: 18px;
+.button-small.button-royal.button {
+		margin-top: 100px;
+		margin-right: 140px;
+		margin-left: 20px;
+		width: 25%;
+		height: 100px;
+}
+
+.button-small.button{
+		height: 90px;
+		font-size: 20px;
+
 }
 
 .images {
 	padding-top: 10px;
 	width: 100%;
 	padding-bottom: 10px;
+	min-height: 300px;
 }
 
 .package-picture {
-	width: 300px;
-	margin: 10px;
+	width: 25%;
+	margin-left: 20px;
+	margin-top: 60px;
 	float: left;
-	display: inline-block; 
+	display: inline-block;
 	transform: rotate(90deg);
 	-webkit-transform: rotate(90deg);
 	
@@ -82,3 +94,9 @@ h3, h2, h1 {
 	margin-left: 20px;
 	margin-top: 40px;
 }
+
+.item-input.item-stacked-label {
+	width: 100%;
+}
+
+
