@@ -48,17 +48,33 @@
 		font-size: 18px;
 }
 
+.images {
+	padding-top: 10px;
+	width: 100%;
+	padding-bottom: 10px;
+}
+
 .package-picture {
-	width: 200px;
+	width: 300px;
+	margin: 10px;
+	float: left;
+	display: inline-block; 
 	transform: rotate(90deg);
 	-webkit-transform: rotate(90deg);
-	float: left;
-	margin: 10px;
-	display: inline-block; 
+	
 
 }
 
-h3 {
+.tracking-form .form-input {
+		height: 80px !important;
+		font-size: 24px !important;
+}
+
+.tracking-form span {
+	font-size: 28px;
+}
+
+h3, h2, h1 {
 	margin-left: 10px;
 }
 
