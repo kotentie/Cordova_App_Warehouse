@@ -6,7 +6,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.pagenumber = 1;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
-	$scope.photos = [];
+	$scope.photos = ['dummy'];
 	$scope.oldphotos = [];
 	$scope.appapiurl = 'https://returns.boxc.com/api';
 	$scope.extrafields = [];
@@ -22,7 +22,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		//   console.log($localstorage.get('name'));
 		var extrafieldarr = [];
 		jQuery('.extrafield').each(function(i, obj){
-			if(jQuery(obj).val().length > 1){
+			if(jQuery(obj).val().length >= 1){
 				extrafieldarr.push(jQuery(obj).val());
 			}
 		});
@@ -32,6 +32,12 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var userId = parseInt(document.getElementById("seller-number").value);
 		var weight = document.getElementById('weight').value;
 		var rma = document.getElementById('rma-number').value;
+		var rfr = document.getElementById('rfr').value
+		
+		if (rfr == ""){
+			rfr = 0;
+		}
+
 
 		if (rma == ""){
 			rma = 0;
@@ -52,9 +58,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			    "rma": rma,
 			   	"tracking": value,
 			   	"barcodes": extrafieldarr,
+			   	"return_exception": rfr,
 			    "weight": weight,
-			    "photos": $scope.photos,
-            	"return_exception": "Address not known",
+			    "photos": [],
             	"status": "Pending"
 				}
 		};
@@ -95,12 +101,14 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 				}else{
 					$scope.rma = tracking.packages[0].rma; 
+					$scope.rfr = tracking.packages[0].return_exception;
 					$scope.seller = tracking.packages[0].user_id;
 					$scope.weight = tracking.packages[0].weight;
 					$scope.pkgid = tracking.packages[0].id;
 					$scope.pagenumber = 5;
 					$scope.oldphotos = tracking.packages[0].photos;
 					$scope.displayextrafields = tracking.packages[0].barcodes;
+
 				}
 			}).error(function(data, status, headers, config) {
 				alert("something went wrong with the GET request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
@@ -126,18 +134,30 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		var extrafieldarr = [];
 		jQuery('.extrafieldedit').each(function(i, obj){
-			if(jQuery(obj).val().length > 1){
-				alert(jQuery(obj).val());
+			if(jQuery(obj).val().length >= 1){
 				extrafieldarr.push(jQuery(obj).val());
 			}
 		});
 
+		jQuery('.extrafield').each(function(i, obj){
+			if(jQuery(obj).val().length >= 1){
+				extrafieldarr.push(jQuery(obj).val());
+			}
+		});
+
+		var i = $scope.photos.indexOf('dummy');
+
+		if (i > -1) {
+    			$scope.photos.splice(i, 1);
+		}
+		
 		if(changes == 1){
 			var putinfo = {
 			 "package": {
 			 	"rma": document.getElementById('rma-number-2').value,
 			 	"user_id": parseInt(document.getElementById("seller-number-2").value),
 			 	"weight": document.getElementById('weight-2').value,
+			 	"return_exception": document.getElementById('rfr-2').value,
 			    "photos": $scope.photos,
 			    "barcodes": extrafieldarr
 				}
@@ -150,13 +170,10 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			};
 		}
 
-		alert(JSON.stringify(extrafieldarr, null, 4));
-
 		var puturl = $scope.appapiurl + '/packages/' + $scope.pkgid;
 
-
+		$scope.$apply($scope.pagenumber = 6);
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
-		  		$scope.$apply($scope.pagenumber = 6);
 		  		$scope.resetVars();
 			  }).error(function(data, status, headers, config) {
 			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
@@ -165,9 +182,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.resetVars = function() {
-		setTimeout(function(){
    			location.reload(false);
-		}, 100);
 	}
 
 	$scope.takePicture = function(){
@@ -206,6 +221,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.addField = function(name) {
 		$scope.extrafieldcount ++;
 		$scope.$apply($scope.extrafields.push(name + ' ' + $scope.extrafieldcount));
+
 	}
 
 

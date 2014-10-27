@@ -1,8 +1,7 @@
 /* Empty. Add your own CSS if you like */
 
 .tracking-form {
-
-	padding-top: 10%;
+	margin-top: 40px;
 }
 
 
@@ -22,38 +21,34 @@
 	width: 200px;
 	margin-right: auto;
 	margin-left: auto;
+	border-color: #498F24;
 }
 
 .ion-camera{
 	font-size: 100px;
-	background: white;
+	background: #6C3;
+	color: white;
 	width: 200px;
+	border-color: #498F24;
 
 }
 
-.button-bottom.button-form.button{
-	margin-bottom: 25%;
-}
-
-.bar-footer {
-	height: 15%;
-}
 
 .button-form.button {
-	margin-top: 10%;
+	margin-top: 40px;
 	font-size: 18px;
+	height: 60px;
 }
 
 .button-small.button-royal.button {
-		margin-top: 100px;
-		margin-right: 140px;
-		margin-left: 20px;
-		width: 25%;
-		height: 100px;
+		margin-top: 40px;
+		height: 60px;
+		width: 30%;
+		margin-right: 10%;
 }
 
 .button-small.button{
-		height: 90px;
+		height: 60px;
 		font-size: 20px;
 
 }
@@ -62,11 +57,11 @@
 	padding-top: 10px;
 	width: 100%;
 	padding-bottom: 10px;
-	min-height: 300px;
+	min-height: 50%;
 }
 
 .package-picture {
-	width: 25%;
+	width: 30%;
 	margin-left: 20px;
 	margin-top: 60px;
 	float: left;
@@ -78,7 +73,7 @@
 }
 
 .tracking-form .form-input {
-		height: 80px !important;
+		height: 60px !important;
 		font-size: 24px !important;
 }
 
@@ -97,6 +92,14 @@ h3, h2, h1 {
 
 .item-input.item-stacked-label {
 	width: 100%;
+}
+
+.photosin:first-child {
+	display:none;
+}
+
+.photosinagain:first-child{
+	display:none;
 }
 
 
