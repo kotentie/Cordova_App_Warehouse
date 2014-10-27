@@ -33,16 +33,23 @@
                  <div ng-show="pagenumber == 1">
 
                         <div class="list tracking-form">
-                            <h2 class="span-title"> Tracking or RMA # </h2>
+                            <h2 class="span-title"> Tracking # </h2>
                             <div class="item item-input-inset">
                                  <label class="item-input-wrapper">
                                       <input type="text" class="form-input" id="first-tracking-rma" placeholder="ex: 1283F23DK" ng-model="tracking" name="tracking-rma" ng-init="focusInit()" >
                                   </label>
                             </div>
                         </div>
-                           <button class="button button-full button-form" ng-click="findData();">
+                           <button class="button button-full button-positive button-form" ng-click="findData();">
                                       Search 
-                                  </button>
+                            </button>
+                        <div class="lastpack-success lastpack" ng-show="lastpack == 'true';">
+                            <h3> Last Package Saved Successfully </h3>
+                        </div>
+                        <div class="lastpack-fail lastpack" ng-show="lastpack == 'false';">
+                            <h3> Last Package Wasn't Saved</h3>
+                        </div>
+
                 </div>
                 <div ng-show="pagenumber == 2">
                       <div class="list tracking-form">
@@ -61,12 +68,10 @@
                                       <input type="tel" class="form-input" placeholder="0.38" ng-model="weight" id="weight" >
                                   </label>
                                   </div>
-                                  <div class="row">
-                                        <label class="item item-input col col-30">
-                                        <span class="input-label">Reason For Return:</span>
-                                      <input class="form-input" placeholder="RMA" ng-model="rfr" id="rfr">
+                                <label class="item item-input">
+                                    <span class="input-label">Reason For Return:</span>
+                                      <input type="text" class="form-input" placeholder="RMA" ng-model="rfr" id="rfr">
                                     </label>
-                                  </div>
                                 <label class="item item-input" ng-repeat="extrafield in extrafields">
                                     <span class="input-label">{{extrafield}}:</span>
                                     <input type="text" class="form-input extrafield">
@@ -122,7 +127,7 @@
                     <h2> WH PKG ID: {{pkgid}}</h2>
                     </div>
                     <div class="images">
-                            <div class="photosin" ng-repeat="photo in photos">
+                            <div class="photosinagain" ng-repeat="photo in photos">
                                 <img src="data:image/jpeg;base64,{{photo}}"  class="package-picture" ng-click="deletePhoto(photo);">
                             </div>
                             <div class="oldphotosin" ng-repeat="oldphoto in oldphotos">
@@ -209,9 +214,6 @@
                     <button ng-click="resetVars();" class="button button-full button-form button-assertive">
                     Reset
                     </button> 
-                </div>
-                <div ng-show="pagenumber == 6">
-                    <h1 style="margin-top: 200px;"> Uploading Data...</h1>
                 </div>
             </form>
         </ion-content>

@@ -9,6 +9,7 @@
 	width: 100%;
 }
 
+
 .camera-text{
 	margin-top: 40px;
 	width: 400px;
@@ -36,12 +37,12 @@
 
 .button-form.button {
 	margin-top: 40px;
-	font-size: 18px;
+	font-size: 24px;
 	height: 60px;
 }
 
 .button-small.button-royal.button {
-		margin-top: 40px;
+		margin-top: 120px;
 		height: 60px;
 		width: 30%;
 		margin-right: 10%;
@@ -102,4 +103,21 @@ h3, h2, h1 {
 	display:none;
 }
 
+
+
+.lastpack {
+	margin-top: 80%;
+	width: 100%;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.lastpack-success h3{
+	color: #6C3;
+}
+
+.lastpack-fail h3{
+	color: red;
+}
 

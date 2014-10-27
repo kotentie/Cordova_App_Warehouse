@@ -12,6 +12,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.extrafields = [];
 	$scope.extrafieldcount = 0;
 	$scope.displayextrafields = [];
+	$scope.lastpack = window.localStorage['lastpack'];
 
 
 	$scope.postData = function() {
@@ -73,6 +74,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		  		$scope.pkgid = data.package.id;
 			  }).error(function(data, status, headers, config) {
 			  	alert("something went wrong with the POST request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
+			  	window.localStorage['lastpack'] = false; 
+			  	$scope.resetVars();
 			  });
 
 		  
@@ -112,6 +115,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 				}
 			}).error(function(data, status, headers, config) {
 				alert("something went wrong with the GET request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
+				$scope.resetVars();
+				window.localStorage['lastpack'] = false; 
+
 		});
 	}
 
@@ -172,11 +178,14 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		var puturl = $scope.appapiurl + '/packages/' + $scope.pkgid;
 
-		$scope.$apply($scope.pagenumber = 6);
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
 		  		$scope.resetVars();
+		  		window.localStorage['lastpack'] = true; 
 			  }).error(function(data, status, headers, config) {
+			  	window.localStorage['lastpack'] = false; 
 			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
+			  	window.localStorage['lastpack'] = false; 
+			  	$scope.resetVars();
 			  });
 
 	}
