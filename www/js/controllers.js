@@ -15,6 +15,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.lastpack = window.localStorage['lastpack'];
 
 
+
 	$scope.postData = function() {
 
 
@@ -55,7 +56,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		var postinfo = {
 			 "package": {
-			    "user_id": userId,
+			    "user_id": 9999,
 			    "rma": rma,
 			   	"tracking": value,
 			   	"barcodes": extrafieldarr,
@@ -154,7 +155,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var i = $scope.photos.indexOf('dummy');
 
 		if (i > -1) {
-    			$scope.photos.splice(i, 1);
+    		$scope.photos.splice(i, 1);
 		}
 		
 		if(changes == 1){
