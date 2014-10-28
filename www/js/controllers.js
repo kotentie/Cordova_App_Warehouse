@@ -213,7 +213,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.deletePhoto = function(photo){
-		var answer = confirm ("Are you sure you want to delete this photo?")
+		var answer = confirm ("Are you sure you want to delete this photo?");
 		if(answer == true){
 			var index = $scope.photos.indexOf(photo);
 			if (index != -1) {
@@ -222,6 +222,33 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		}
 
 	}
+
+	$scope.deleteOldPhoto = function(oldphoto){
+		var answer = confirm ("Are you sure you want to delete this photo?");
+
+		if(answer == true){
+			var m = oldphoto.split("/").pop();
+			var q = m.match(/\d+/i);
+			delurl = $scope.appapiurl + '/packages/' + $scope.pkgid + '/photos/' + q;
+			
+    		$http.delete(delurl, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
+
+    				var index = $scope.oldphotos.indexOf(oldphoto);
+					
+					if (index != -1) {
+    					return $scope.oldphotos.splice(index, 1);
+					}
+
+			}).error(function(data, status, headers, config) {
+			  		
+			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
+			 });
+		}
+
+	}
+
+
+
 
 	$scope.focusInit = function() {
 		document.getElementById("first-tracking-rma").focus();

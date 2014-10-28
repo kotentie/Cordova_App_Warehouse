@@ -197,7 +197,7 @@
                                 <img src="data:image/jpeg;base64,{{photo}}"  class="package-picture" ng-click="deletePhoto(photo);">
                             </div>
                             <div class="oldphotosin" ng-repeat="oldphoto in oldphotos">
-                                <img src="{{oldphoto}}"   class="package-picture"  >
+                                <img src="{{oldphoto}}"   class="package-picture" ng-click="deleteOldPhoto(oldphoto);" >
                             </div>
                          </div>
                         <div class="row">
