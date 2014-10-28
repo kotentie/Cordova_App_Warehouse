@@ -68,7 +68,8 @@
 .package-picture {
 	width: 30%;
 	margin-left: 20px;
-	margin-top: 60px;
+	margin-top: 25px;
+	margin-bottom: 40px;
 	float: left;
 	display: inline-block;
 	transform: rotate(90deg);
@@ -110,7 +111,7 @@ h3, h2, h1 {
 
 
 .lastpack {
-	margin-top: 80%;
+	margin-top: 40%;
 	width: 100%;
 	text-align: center;
 	padding-top: 10px;

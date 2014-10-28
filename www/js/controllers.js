@@ -6,13 +6,15 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.pagenumber = 1;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
-	$scope.photos = ['dummy'];
+	$scope.photos = ['R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7'];
 	$scope.oldphotos = [];
 	$scope.appapiurl = 'https://returns.boxc.com/api';
 	$scope.extrafields = [];
 	$scope.extrafieldcount = 0;
 	$scope.displayextrafields = [];
 	$scope.lastpack = window.localStorage['lastpack'];
+
+	var backupPhotoarr = [];
 
 
 
@@ -152,7 +154,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			}
 		});
 
-		var i = $scope.photos.indexOf('dummy');
+		var i = $scope.photos.indexOf('R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7');
 
 		if (i > -1) {
     		$scope.photos.splice(i, 1);
@@ -177,6 +179,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			};
 		}
 
+		$scope.pagenumber = 1;
+
 		var puturl = $scope.appapiurl + '/packages/' + $scope.pkgid;
 
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
@@ -196,8 +200,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.takePicture = function(){
-	
 		navigator.camera.getPicture(function(imageData) {
+				backupPhotoarr.push(imageData);
 	   	 		$scope.$apply($scope.photos.push(imageData));
 
 	  		}, function(err) {
@@ -230,7 +234,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		if(answer == true){
 			var m = oldphoto.split("/").pop();
 			var q = m.match(/\d+/i);
-			delurl = $scope.appapiurl + '/packages/' + $scope.pkgid + '/photos/' + q;
+			var delurl = $scope.appapiurl + '/packages/' + $scope.pkgid + '/photos/' + q;
 			
     		$http.delete(delurl, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
 
@@ -259,6 +263,10 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		$scope.extrafieldcount ++;
 		$scope.$apply($scope.extrafields.push(name + ' ' + $scope.extrafieldcount));
 
+	}
+
+	$scope.showPhotos = function() {
+		alert(JSON.stringify(backupPhotoarr, null, 4));
 	}
 
 
