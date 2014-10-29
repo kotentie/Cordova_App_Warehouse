@@ -208,12 +208,17 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 10, destinationType: Camera.DestinationType.DATA_URL })	
+	  		}, { quality: 20, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 512})	
 		};
 
 	$scope.pressEnter = function(eventNew) {
 	  	if (eventNew.which==13){
-	    	       event.preventDefault();
+	  		event.preventDefault();
+	  		if (jQuery(document.activeElement).attr('id') == 'rma-number'){
+	  			document.getElementById('rfr').value = 'RMA'; 
+	  			document.getElementById('seller-number').focus();
+	  		}
+	  			
 		}
 	}
 
@@ -263,10 +268,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		$scope.extrafieldcount ++;
 		$scope.$apply($scope.extrafields.push(name + ' ' + $scope.extrafieldcount));
 
-	}
-
-	$scope.showPhotos = function() {
-		alert(JSON.stringify(backupPhotoarr, null, 4));
 	}
 
 
