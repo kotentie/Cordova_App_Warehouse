@@ -13,8 +13,12 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.extrafieldcount = 0;
 	$scope.displayextrafields = [];
 	$scope.lastpack = window.localStorage['lastpack'];
+	$scope.testmode = window.localStorage['testmode'];
 
 	var backupPhotoarr = [];
+	if($scope.testmode){
+		jQuery('.bar-assertive').removeClass('ng-hide');
+	}
 
 
 
@@ -38,10 +42,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var rma = document.getElementById('rma-number').value;
 		var rfr = document.getElementById('rfr').value
 		
-		if (rfr == ""){
-			rfr = 0;
+		if($scope.testmode){
+			userId = 9999;
 		}
-
 
 		if (rma == ""){
 			rma = 0;
@@ -58,7 +61,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		var postinfo = {
 			 "package": {
-			    "user_id": 9999,
+			    "user_id": userId,
 			    "rma": rma,
 			   	"tracking": value,
 			   	"barcodes": extrafieldarr,
@@ -94,7 +97,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			var value = trackingnum;
 		}
 		var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
-		
 		$http.get(geturl, {headers: {'X-boxc-token': 'BoxcReturns2014'}} ).success(function(tracking, status, headers, config) {
 				// alert(JSON.stringify(tracking, null, 4));
 
@@ -201,6 +203,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.takePicture = function(){
 		navigator.camera.getPicture(function(imageData) {
+
 				backupPhotoarr.push(imageData);
 	   	 		$scope.$apply($scope.photos.push(imageData));
 
@@ -208,7 +211,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 20, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 512})	
+	  		}, { quality: 15, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 512})	
 		};
 
 	$scope.pressEnter = function(eventNew) {
@@ -224,7 +227,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.deletePhoto = function(photo){
 		var answer = confirm ("Are you sure you want to delete this photo?");
-		if(answer == true){
+		if(answer){
 			var index = $scope.photos.indexOf(photo);
 			if (index != -1) {
     				return $scope.photos.splice(index, 1);
@@ -236,7 +239,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.deleteOldPhoto = function(oldphoto){
 		var answer = confirm ("Are you sure you want to delete this photo?");
 
-		if(answer == true){
+		if(answer){
 			var m = oldphoto.split("/").pop();
 			var q = m.match(/\d+/i);
 			var delurl = $scope.appapiurl + '/packages/' + $scope.pkgid + '/photos/' + q;
@@ -257,6 +260,17 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	}
 
+	$scope.testMode = function() {
+		if(typeof $scope.testmode  === 'undefined'){
+			$scope.testmode = true;
+		}else{
+			$scope.testmode = !$scope.testmode;
+			window.localStorage['testmode'] = $scope.testmode;
+		}
+
+			alert($scope.testmode);
+
+	}
 
 
 
