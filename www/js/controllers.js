@@ -13,7 +13,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.extrafieldcount = 0;
 	$scope.displayextrafields = [];
 	$scope.lastpack = window.localStorage['lastpack'];
-	$scope.testmode = window.localStorage['testmode'];
+	$scope.testmode = false;
 
 	var backupPhotoarr = [];
 	if($scope.testmode){
@@ -42,9 +42,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var rma = document.getElementById('rma-number').value;
 		var rfr = document.getElementById('rfr').value
 		
-		if($scope.testmode){
-			userId = 9999;
-		}
 
 		if (rma == ""){
 			rma = 0;
@@ -56,7 +53,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		}
 
 		if(isNaN(userId)){
-			userId = 0; 
+			userId = 9; 
 		}
 
 		var postinfo = {
@@ -267,8 +264,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			$scope.testmode = !$scope.testmode;
 			window.localStorage['testmode'] = $scope.testmode;
 		}
-
-			alert($scope.testmode);
 
 	}
 
