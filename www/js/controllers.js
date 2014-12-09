@@ -153,6 +153,20 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			}
 		});
 
+		var weight = document.getElementById('weight-2').value;
+		var rma = document.getElementById('rma-number-2').value;
+		var rfr = document.getElementById('rfr-2').value;
+		
+
+		if (rma == ""){
+			rma = 0;
+		}
+
+
+		if (weight == ""){
+			weight = 0;
+		}
+
 		var i = $scope.photos.indexOf('R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7');
 
 		if (i > -1) {
@@ -162,11 +176,12 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		if(changes == 1){
 			var putinfo = {
 			 "package": {
-			 	"rma": document.getElementById('rma-number-2').value,
+			 	"rma": rma,
 			 	"user_id": parseInt(document.getElementById("seller-number-2").value),
-			 	"weight": document.getElementById('weight-2').value,
+			 	"weight": weight,
 			 	"return_exception": document.getElementById('rfr-2').value,
 			    "photos": $scope.photos,
+			    "return_exception": rfr,
 			    "barcodes": extrafieldarr
 				}
 			};
@@ -208,7 +223,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 15, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 512})	
+	  		}, { quality: 20, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 600})	
 		};
 
 	$scope.pressEnter = function(eventNew) {
@@ -217,8 +232,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	  		if (jQuery(document.activeElement).attr('id') == 'rma-number'){
 	  			document.getElementById('rfr').value = 'RMA'; 
 	  			document.getElementById('seller-number').focus();
-	  		}
-	  			
+	  		}else if(jQuery(document.activeElement).attr('id') == 'seller-number'){
+	  			document.getElementById('weight').focus();
+	  		}	
 		}
 	}
 
