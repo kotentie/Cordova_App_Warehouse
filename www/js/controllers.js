@@ -93,16 +93,41 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		}else{
 			var value = trackingnum;
 		}
-		var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
+
+		var searchType = document.getElementById("searchtype").value
+		switch(searchType){
+			case 'trackingnum': 
+			var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
+			break;
+
+			case 'barcode': 
+			var geturl = $scope.appapiurl + '/packages/' + value + '/barcode';
+			break;
+
+			case 'packageid':
+			var geturl = $scope.appapiurl + '/packages/' + value;
+			break;
+
+			case 'rma':
+			var geturl = $scope.appapiurl + '/packages/' + value + '/rma';
+			break;
+
+			default: 
+			var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
+		}
 		$http.get(geturl, {headers: {'X-boxc-token': 'BoxcReturns2014'}} ).success(function(tracking, status, headers, config) {
-				// alert(JSON.stringify(tracking, null, 4));
 
 				if(tracking.packages.length == 0){
+					if(searchType === 'barcode' || searchType === 'packageid' || searchType === 'rma'){
+						alert('package not found');
+					}
+					else{
 					$scope.pagenumber = 2;
 					$scope.$apply($scope.tracking = value);
 					$scope.$apply(document.getElementById("first-tracking-rma").value = value);
 					document.getElementById("rma-number").focus();
 					cordova.plugins.Keyboard.show();
+					}
 
 				}else{
 					$scope.rma = tracking.packages[0].rma; 

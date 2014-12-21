@@ -33,11 +33,22 @@
                  <div ng-show="pagenumber == 1">
 
                         <div class="list tracking-form">
-                            <h2 class="span-title"> Tracking # </h2>
                             <div class="item item-input-inset">
                                  <label class="item-input-wrapper">
                                       <input type="text" class="form-input" id="first-tracking-rma" placeholder="ex: 1283F23DK" ng-model="tracking" name="tracking-rma" ng-init="focusInit()" >
                                   </label>
+
+                            </div>
+                            <div class="item item-input item-select">
+                            <div class="input-label">
+                                Search by
+                            </div>
+                             <select id="searchtype">
+                                    <option selected value="tracking">Tracking Number</option>
+                                    <option value="packageid">Package ID</option>
+                                    <option value="rma">RMA</option>
+                                    <option value="barcode">Barcode</option>
+                                  </select>
                             </div>
                         </div>
                         <button class="button button-full button-positive button-form" id="lookup-button" ng-click="findData();">
