@@ -4,6 +4,12 @@
 	margin-top: 40px;
 }
 
+.large-font {
+	font-size: 28px !important;
+	padding-top: 20px !important;
+	padding-bottom: 20px !important;
+}
+
 
 .camera-upload {
 	width: 100%;

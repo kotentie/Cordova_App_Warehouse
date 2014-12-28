@@ -4,7 +4,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 
 
-	$scope.pagenumber = 1;
+	$scope.pagenumber = 2;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
 	$scope.photos = ['R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7'];
 	$scope.oldphotos = [];
@@ -40,13 +40,21 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var userId = parseInt(document.getElementById("seller-number").value);
 		var weight = document.getElementById('weight').value;
 		var rma = document.getElementById('rma-number').value;
-		var rfr = document.getElementById('rfr').value
-		
+		var rfr = document.getElementById('rfr').value;
+		var weightUnit = document.getElementById('weight-unit').value;
+		var status = document.getElementById('package-status').value;
 
 		if (rma == ""){
 			rma = 0;
 		}
 
+		if (weightUnit == "lbs"){
+			weight = Math.round(weight * 0.453592);
+		}
+
+		if (weightUnit == "oz"){
+			weight = Math.round(weight * 0.0283495);
+		}
 
 		if (weight == ""){
 			weight = 0;
@@ -65,7 +73,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			   	"return_exception": rfr,
 			    "weight": weight,
 			    "photos": [],
-            	"status": "Pending"
+            	"status": status
 				}
 		};
 
@@ -106,6 +114,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 			case 'packageid':
 			var geturl = $scope.appapiurl + '/packages/' + value;
+			alert(geturl);
 			break;
 
 			case 'rma':
@@ -135,6 +144,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 					$scope.seller = tracking.packages[0].user_id;
 					$scope.weight = tracking.packages[0].weight;
 					$scope.pkgid = tracking.packages[0].id;
+					$scope.pkstatus = tracking.packages[0].status;
 					$scope.pagenumber = 5;
 					$scope.oldphotos = tracking.packages[0].photos;
 					$scope.displayextrafields = tracking.packages[0].barcodes;
@@ -181,6 +191,20 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var weight = document.getElementById('weight-2').value;
 		var rma = document.getElementById('rma-number-2').value;
 		var rfr = document.getElementById('rfr-2').value;
+		var weightUnit = document.getElementById('weight-unit-2').value;
+		var status = document.getElementById('package-status-2').value;
+
+		if (rma == ""){
+			rma = 0;
+		}
+
+		if (weightUnit == "lbs"){
+			weight = Math.round(weight * 0.453592);
+		}
+
+		if (weightUnit == "oz"){
+			weight = Math.round(weight * 0.0283495);
+		}
 		
 
 		if (rma == ""){
@@ -207,7 +231,8 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			 	"return_exception": document.getElementById('rfr-2').value,
 			    "photos": $scope.photos,
 			    "return_exception": rfr,
-			    "barcodes": extrafieldarr
+			    "barcodes": extrafieldarr,
+			    "status": status
 				}
 			};
 		}else{
