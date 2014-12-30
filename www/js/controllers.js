@@ -76,7 +76,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
             	"status": status
 				}
 		};
-
+		alert(postinfo);
 		var posturl = $scope.appapiurl + '/packages/';
 
 		  $localstorage.setObject( value, postinfo);

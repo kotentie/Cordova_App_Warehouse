@@ -67,6 +67,22 @@
 
                 </div>
                 <div ng-show="pagenumber == 2">
+                    <table>
+                            <tbody>
+                                <tr>
+                                    <td><p align="left"><input class="button" value="Next" type="submit" ng-click="postData();"></p></td>
+                                    <td><p align="right"><input class="button careful" value="Reset" ng-click="resetVars();" type="submit"></p></td>
+                                </tr>
+                                <tr class="field">
+                                   <td>Tracking Number</td> 
+                                   <td>{{tracking}}</td>
+                                </tr>
+                                <tr class="field">
+                                   <td>RMA</td> 
+                                   <td><input type="text" class="inp" placeholder="ex: 12342" ng-model="rma" id="rma-number"  ng-keypress="pressEnter($event);" ng-init="focusInit()"></td>
+                                </tr>
+                    </table>
+
                     <div class="row">
                         <button ng-click="postData();" class="col col-30 button button-full button-positive button-form">
                             Next
@@ -92,10 +108,6 @@
                                       <input type="tel" class="form-input" placeholder="0.38" ng-model="weight" id="weight" >
                                   </label>
                                   </div>
-                                  <label class="item item-input">
-                                        <span class="input-label">Weight in Lbs:</span>
-                                      <input type="tel" class="form-input" placeholder="0.38" ng-model="weight-lbs" id="weight-lbs">
-                                  </label>
                                 <label class="item item-input">
                                     <span class="input-label">Reason For Return:</span>
                                       <input type="text" class="form-input" placeholder="RMA" ng-model="rfr" id="rfr" ng-keypress="pressEnter($event);">
