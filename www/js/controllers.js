@@ -4,7 +4,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 
 
-	$scope.pagenumber = 2;
+	$scope.pagenumber = 1;
 	$scope.titles = ["Scan Barcode or Enter RMA / Tracking number", "Enter Package Info", "Assign ID and Take Picture", "Confirm Info", "Edit Package Info/Add photos"];
 	$scope.photos = ['R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7'];
 	$scope.oldphotos = [];
@@ -38,27 +38,29 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 		value = String(value).trim();
 		var userId = parseInt(document.getElementById("seller-number").value);
-		var weight = document.getElementById('weight').value;
+		var weightlb = document.getElementById('weight').value;
 		var rma = document.getElementById('rma-number').value;
 		var rfr = document.getElementById('rfr').value;
-		var weightUnit = document.getElementById('weight-unit').value;
 		var status = document.getElementById('package-status').value;
+		var weightoz = document.getElementById('weightoz').value;
+		var comments = document.getElementById('weightoz').value;
+		var weight; 
 
 		if (rma == ""){
 			rma = 0;
 		}
 
-		if (weightUnit == "lbs"){
-			weight = Math.round(weight * 0.453592);
-		}
-
-		if (weightUnit == "oz"){
-			weight = Math.round(weight * 0.0283495);
-		}
-
-		if (weight == ""){
+		if (weightlb == "" && weightoz == ""){
 			weight = 0;
+		}else if (weightlb != "" && weightoz == ""){
+			weight = Math.round(weightlb * 0.453592 * 1000)/1000;
+		}else if (weightlb == "" && weightoz != ""){
+			weight = Math.round(weightoz * 0.0283495 * 1000)/1000;
+		}else{
+			alert('you can only have one value in the weight input box');
+			return;
 		}
+
 
 		if(isNaN(userId)){
 			userId = 9; 
@@ -72,11 +74,12 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			   	"barcodes": extrafieldarr,
 			   	"return_exception": rfr,
 			    "weight": weight,
+			    "comments": comments,
 			    "photos": [],
             	"status": status
 				}
 		};
-		alert(postinfo);
+
 		var posturl = $scope.appapiurl + '/packages/';
 
 		  $localstorage.setObject( value, postinfo);
@@ -114,7 +117,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 			case 'packageid':
 			var geturl = $scope.appapiurl + '/packages/' + value;
-			alert(geturl);
 			break;
 
 			case 'rma':
@@ -148,6 +150,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 					$scope.pagenumber = 5;
 					$scope.oldphotos = tracking.packages[0].photos;
 					$scope.displayextrafields = tracking.packages[0].barcodes;
+					jQuery('#package-status-2 option[value="' + tracking.packages[0].status + '"]').prop('selected', true);
 
 				}
 			}).error(function(data, status, headers, config) {
@@ -193,28 +196,28 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		var rfr = document.getElementById('rfr-2').value;
 		var weightUnit = document.getElementById('weight-unit-2').value;
 		var status = document.getElementById('package-status-2').value;
+		var comments = document.getElementById('comments-2').value;
 
 		if (rma == ""){
 			rma = 0;
 		}
-
-		if (weightUnit == "lbs"){
-			weight = Math.round(weight * 0.453592);
-		}
-
-		if (weightUnit == "oz"){
-			weight = Math.round(weight * 0.0283495);
-		}
-		
-
-		if (rma == ""){
-			rma = 0;
-		}
-
 
 		if (weight == ""){
 			weight = 0;
 		}
+
+		if (weightUnit == "lbs"){
+			weight = Math.round(weight * 0.453592 * 1000)/1000;
+		}
+
+		if (weightUnit == "oz"){
+			weight = Math.round(weight * 0.0283495 * 1000)/1000;
+		}
+		
+		if (rma == ""){
+			rma = 0;
+		}
+
 
 		var i = $scope.photos.indexOf('R0lGODlhCgAKAIAAAP////Dz9yH5BAAAAAAALAAAAAAKAAoAAAIQhH+Bq5v+IGiQOsvkDLz7AgA7');
 
@@ -231,6 +234,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			 	"return_exception": document.getElementById('rfr-2').value,
 			    "photos": $scope.photos,
 			    "return_exception": rfr,
+			    "comments": comments,
 			    "barcodes": extrafieldarr,
 			    "status": status
 				}
@@ -273,7 +277,7 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 20, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 600})	
+	  		}, { quality: 40, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 600})	
 		};
 
 	$scope.pressEnter = function(eventNew) {

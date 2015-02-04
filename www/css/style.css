@@ -1,4 +1,12 @@
 /* Empty. Add your own CSS if you like */
+/* Empty. Add your own CSS if you like */
+ @media only screen and (device-width: 1000px) {
+        /* For general iPad layouts */
+    }
+
+    @import url(http://fonts.googleapis.com/css?family=Varela+Round);
+    * {font-family: 'Varela Round',sans-serif; font-size: 24px; margin:0; padding:0}
+
 
 .tracking-form {
 	margin-top: 40px;
@@ -144,39 +152,26 @@ input:focus {
 }
 
 .unchangable {
-	border: 3px solid black;
+	line-height: .6;
+	padding: 0px !important;
 }
 
 .white-text {
 	color: #fff;
 }
 
+
+    
 table td {font-size: 24px; font-weight:bold; padding: 5px 20px; height: 50px}
     table tr.field td {border-bottom: 1px solid #ddd;}
 
-    .inp {
-        width: 400px;
-        height: 40px;
-        padding: 5px 10px;
-        font-size: 24px;
-        border: 1px solid #ddd;
-    }
-    
-    .inp.half {
-        width: 182px;
-    }
-    
-    .inp:focus {
-        background: yellow;
-    }
-    
-    .rng {
-        width: 400px;
-        height: 50px;
-    }
-
-    .danger {
-        color: red;
+    .form-input {
+        width: 400px !important;
+        height: 40px !important;
+        padding: 5px 10px !important;
+        font-size: 24px !important;
+        border: 1px solid #ddd !important;
+        margin-right: 5px !important;
     }
     
     
@@ -190,7 +185,12 @@ table td {font-size: 24px; font-weight:bold; padding: 5px 20px; height: 50px}
         border-radius: 5px
     }
     
-    .button.careful {
-        background: red;
-    }
+ 
+
+.form-container{
+	width: 650px;
+	font-size: 24px;  
+	padding: 5px 20px; 
+}
+
 
