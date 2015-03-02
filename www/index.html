@@ -49,12 +49,14 @@
                                     <option value="packageid">Package ID</option>
                                     <option value="rma">RMA</option>
                                     <option value="barcode">Barcode</option>
+                                    <option value="bulk">Bulk Order</option>
                                   </select>
                             </div>
                         </div>
                         <button class="button button-full button-positive button-form" id="lookup-button" ng-click="findData();">
                                       Search 
                         </button>
+
                        <!--  <button class="button button-full button-form" ng-click="testMode();">
                                      Test Mode 
                         </button> -->
@@ -275,6 +277,76 @@
                           <button ng-click="addField('RMA/Barcode');" class="button button-full button-royal"> 
                                     Add RMA or Barcode
                             </button>
+                    </div>
+                    <div ng-show="pagenumber == 6">
+                        <div class="row">
+                        <button ng-click="pagenumber = 7;" class="col col-30 button button-full button-positive button-form">
+                            Edit
+                        </button>
+                        <div class="space col col-30"></div>
+                        <button ng-click="resetVars();" class="col col-30 button button-full button-form button-assertive">
+                        Reset
+                        </button> 
+                    </div>
+                        <div class="confirm-info">
+                        <h2> Bulk ID: {{bulkid}}</h2> 
+                        <h2> Tracking: {{bulktracking}} </h2> 
+                        <h2> Price: {{bulkprice}} </h2>
+                        <h2> Status: {{bulkstatus}} </h2>
+                        <h2> Packages: <h2>
+                            <ul>
+                                <li ng-repeat="package in packages">{{package}}</li>
+                            </ul>
+                        <h2> From: {{bulkfrom}} </h2>
+                        <div class="bulkaddress">
+                            <h2>To:</h2>
+                                <span>{{bulktoname}}</span>
+                                <span>{{bulktostreet1}}</span>
+                                <span>{{bulktostreet2}}</span>
+                                <span>{{bulktocity}}, {{bulktoprovince}}</span>
+                                <span>{{bulktopostal}}</span> 
+                                <span>{{bulktocountry}}</span> 
+                                <span>phone: {{bulktophone}}</span>
+                        </div>  
+                    </div>
+                    </div>
+                    <div ng-show="pagenumber == 7">
+                        <div class="row">
+                        <button ng-click="updatebulkData();" class="col col-30 button button-full button-positive button-form">
+                            Update
+                        </button>
+                        <div class="space col col-30"></div>
+                        <button ng-click="resetVars();" class="col col-30 button button-full button-form button-assertive">
+                        Reset
+                        </button> 
+                    </div>
+                      <div class="list tracking-form">  
+                            <h2 class="unchangable"> Bulk ID: {{bulkid}}  <br><br> </h2>
+                                <label class="item item-input">
+                                        <span class="input-label">Tracking:</span>
+                                      <input type="text" class="form-input" ng-model="bulktracking" id="bulktracking" >
+                                  </label>
+                                <label class="item item-input">
+                                    <span class="input-label">Price:</span>
+                                      <input type="text" class="form-input" ng-model="bulkprice" id="bulkprice" >
+                                  </label>
+                                <div class="item item-input item-select">
+                                    <div class="input-label large-font">
+                                        Package Status
+                                    </div>
+                                    <select id="bulk-package-status" class="large-font">
+                                            <option value="Pending">Pending</option>
+                                            <option value="Unusable">Unusable</option>
+                                            <option value="Processed">Processed</option>
+                                            <option value="Discarded">Discarded</option>
+                                            <option value="Reshipped">Reshipped</option>
+                                     </select>
+                                </div>
+                                <label class="item item-input">
+                                        <span class="input-label">Package:</span>
+                                      <input class="form-input bulkpackages" id="bulkpackages" ng-model="packages">
+                                </label>
+                        </div>
                     </div>
                 </div>
             </form>

@@ -40,6 +40,14 @@
 
 }
 
+.bulkaddress span {
+
+	display:block;
+	font-size: 24px;
+	text-align: center;
+
+}
+
 .toggle-list {
 	margin-top: 120px;
 }

@@ -123,16 +123,19 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			var geturl = $scope.appapiurl + '/packages/' + value + '/rma';
 			break;
 
+			case 'bulk':
+			var geturl = $scope.appapiurl + '/bulk/' + value;
+			$scope.bulkid = value;
+			break;
+
 			default: 
 			var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
 		}
 		$http.get(geturl, {headers: {'X-boxc-token': 'BoxcReturns2014'}} ).success(function(tracking, status, headers, config) {
-
-				if(tracking.packages.length == 0){
-					if(searchType === 'barcode' || searchType === 'packageid' || searchType === 'rma'){
+				if(typeof tracking.packages != 'undefined'){
+					if(searchType === 'barcode' || searchType === 'packageid' || searchType === 'rma' || searchType === 'bulk'){
 						alert('package not found');
-					}
-					else{
+					}else{
 					$scope.pagenumber = 2;
 					$scope.$apply($scope.tracking = value);
 					$scope.$apply(document.getElementById("first-tracking-rma").value = value);
@@ -140,7 +143,26 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 					cordova.plugins.Keyboard.show();
 					}
 
+				}else if(typeof tracking.bulk != 'undefined'){
+					$scope.bulktracking = tracking.bulk.tracking;
+					$scope.bulkpricing = tracking.bulk.price;
+					$scope.bulkstatus = tracking.bulk.status;
+					$scope.bulkprice = tracking.bulk.price;
+					$scope.packages = tracking.bulk.packages;
+					$scope.bulkfrom = tracking.bulk.from.name;
+					$scope.bulktoname = tracking.bulk.to.name;
+					$scope.bulktophone = tracking.bulk.to.phone;
+					$scope.bulktostreet1 = tracking.bulk.to.street1;
+					$scope.bulktostreet2 = tracking.bulk.to.street2;
+					$scope.bulktocity = tracking.bulk.to.city;
+					$scope.bulktoprovince = tracking.bulk.to.province;
+					$scope.bulktopostal = tracking.bulk.to.postal_code;
+					$scope.bulktocountry = tracking.bulk.to.country;
+
+					$scope.pagenumber = 6;
+					
 				}else{
+
 					$scope.rma = tracking.packages[0].rma; 
 					$scope.rfr = tracking.packages[0].return_exception;
 					$scope.seller = tracking.packages[0].user_id;
@@ -250,6 +272,49 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 		$scope.pagenumber = 1;
 
 		var puturl = $scope.appapiurl + '/packages/' + $scope.pkgid;
+
+		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
+		  		$scope.resetVars();
+		  		window.localStorage['lastpack'] = true; 
+			  }).error(function(data, status, headers, config) {
+			  	window.localStorage['lastpack'] = false; 
+			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
+			  	window.localStorage['lastpack'] = false; 
+			  	$scope.resetVars();
+			  });
+
+	}
+
+	$scope.updatebulkData = function() {
+
+		var tracking = document.getElementById('bulktracking').value;
+		var status = document.getElementById('bulk-package-status').value;
+		var price = document.getElementById('bulkprice').value;
+		var packages = document.getElementById('bulkpackages').value;
+
+
+
+		if (tracking == ""){
+			tracking = 0;
+		}
+
+		if (price == ""){
+			price = 0;
+		}
+
+		var packagearr = packages.split(',');
+
+
+		var putinfo = {
+			 "bulk": {
+			 	"tracking": tracking,
+        		"price": price,
+        		"status": status,
+        		"packages": packagearr
+				}
+			};
+
+		var puturl = $scope.appapiurl + '/bulk/' + $scope.bulkid;
 
 		$http.put(puturl, putinfo, {headers: {'X-boxc-token': 'BoxcReturns2014', 'Access-Control-Request-Headers': 'X-boxc-token'}}).success(function(data, status, headers, config) {
 		  		$scope.resetVars();
