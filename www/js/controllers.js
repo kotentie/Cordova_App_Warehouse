@@ -21,17 +21,19 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	$scope.postData = function() {
 
-
+		var extrafieldcount = document.getElementsByClassName("extrafield").length;
 		var	value = document.getElementById("first-tracking-rma").value;
 		// $localstorage.set('name', 'Jake');
 		//   console.log($localstorage.get('name'));
 		var extrafieldarr = [];
-		jQuery('.extrafield').each(function(i, obj){
-			if(jQuery(obj).val().length >= 1){
-				extrafieldarr.push(jQuery(obj).val());
-			}
-		});
 
+		if (extrafieldcount > 1){
+			jQuery('.extrafield').each(function(i, obj){
+				if(jQuery(obj).val().length >= 1){
+					extrafieldarr.push(jQuery(obj).val());
+				}
+			});
+		}
 
 		value = String(value).trim();
 		var userId = parseInt(document.getElementById("seller-number").value);
@@ -146,7 +148,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 						$scope.pagenumber = 2;
 						$scope.$apply($scope.tracking = value);
 						$scope.$apply(document.getElementById("first-tracking-rma").value = value);
-						document.getElementById("rma-number").focus();	
+						document.getElementById("rma-number").focus();
+						cordova.plugins.Keyboard.show();
+	
 					}
 				}else if(searchType === 'bulk'){
 						$scope.bulktracking = tracking.bulk.tracking;
@@ -203,19 +207,26 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	}
 
 	$scope.updateData = function(changes) {
-
+		var extrafieldcount = document.getElementsByClassName("extrafieldedit").length;
+		var extrafieldcount2 = document.getElementsByClassName("extrafielded").length;
 		var extrafieldarr = [];
-		jQuery('.extrafieldedit').each(function(i, obj){
-			if(jQuery(obj).val().length >= 1){
-				extrafieldarr.push(jQuery(obj).val());
-			}
-		});
+		
+		if (extrafieldcount > 1){
+			jQuery('.extrafieldedit').each(function(i, obj){
+				if(jQuery(obj).val().length >= 1){
+					extrafieldarr.push(jQuery(obj).val());
+				}
+			});
+		}
+		
+		if (extrafieldcount2 > 1){
+			jQuery('.extrafield').each(function(i, obj){
+				if(jQuery(obj).val().length >= 1){
+					extrafieldarr.push(jQuery(obj).val());
+				}
+			});
+		}
 
-		jQuery('.extrafield').each(function(i, obj){
-			if(jQuery(obj).val().length >= 1){
-				extrafieldarr.push(jQuery(obj).val());
-			}
-		});
 
 		var weight = document.getElementById('weight-2').value;
 		var rma = document.getElementById('rma-number-2').value;
@@ -346,14 +357,14 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 
 	    			alert('Failed because: ' + message);
 
-	  		}, { quality: 40, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 600})	
+	  		}, { quality: 50, destinationType: Camera.DestinationType.DATA_URL, targetWidth: 1000})	
 		};
 
 	$scope.pressEnter = function(eventNew) {
 	  	if (eventNew.which==13){
 	  		event.preventDefault();
 	  		if (jQuery(document.activeElement).attr('id') == 'rma-number'){
-	  			document.getElementById('rfr').value = 'RMA'; 
+	  			document.getElementById('rfr').value = 'RB'; 
 	  			document.getElementById('seller-number').focus();
 	  		}else if(jQuery(document.activeElement).attr('id') == 'seller-number'){
 	  			document.getElementById('weight').focus();
