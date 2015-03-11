@@ -13,12 +13,9 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 	$scope.extrafieldcount = 0;
 	$scope.displayextrafields = [];
 	$scope.lastpack = window.localStorage['lastpack'];
-	$scope.testmode = false;
 
 	var backupPhotoarr = [];
-	if($scope.testmode){
-		jQuery('.bar-assertive').removeClass('ng-hide');
-	}
+	
 
 
 
@@ -132,48 +129,55 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			var geturl = $scope.appapiurl + '/packages/' + value + '/tracking';
 		}
 		$http.get(geturl, {headers: {'X-boxc-token': 'BoxcReturns2014'}} ).success(function(tracking, status, headers, config) {
-				if(typeof tracking.packages != 'undefined'){
-					if(searchType === 'barcode' || searchType === 'packageid' || searchType === 'rma' || searchType === 'bulk'){
+				if(searchType === 'tracking'){
+					if(tracking.packages.length > 0){
+						$scope.rma = tracking.packages[0].rma; 
+						$scope.rfr = tracking.packages[0].return_exception;
+						$scope.seller = tracking.packages[0].user_id;
+						$scope.weight = tracking.packages[0].weight;
+						$scope.pkgid = tracking.packages[0].id;
+						$scope.pkstatus = tracking.packages[0].status;
+						$scope.pagenumber = 5;
+						$scope.oldphotos = tracking.packages[0].photos;
+						$scope.displayextrafields = tracking.packages[0].barcodes;
+						jQuery('#package-status-2 option[value="' + tracking.packages[0].status + '"]').prop('selected', true);
+
+					}else{
+						$scope.pagenumber = 2;
+						$scope.$apply($scope.tracking = value);
+						$scope.$apply(document.getElementById("first-tracking-rma").value = value);
+						document.getElementById("rma-number").focus();	
+					}
+				}else if(searchType === 'bulk'){
+						$scope.bulktracking = tracking.bulk.tracking;
+						$scope.bulkpricing = tracking.bulk.price;
+						$scope.bulkstatus = tracking.bulk.status;
+						$scope.bulkprice = tracking.bulk.price;
+						$scope.packages = tracking.bulk.packages;
+						$scope.bulkfrom = tracking.bulk.from.name;
+						$scope.bulktoname = tracking.bulk.to.name;
+						$scope.bulktophone = tracking.bulk.to.phone;
+						$scope.bulktostreet1 = tracking.bulk.to.street1;
+						$scope.bulktostreet2 = tracking.bulk.to.street2;
+						$scope.bulktocity = tracking.bulk.to.city;
+						$scope.bulktoprovince = tracking.bulk.to.province;
+						$scope.bulktopostal = tracking.bulk.to.postal_code;
+						$scope.bulktocountry = tracking.bulk.to.country;
+						$scope.pagenumber = 6;
+				}else{
+					if(tracking.packages.length == 0){
 						alert('package not found');
 					}else{
-					$scope.pagenumber = 2;
-					$scope.$apply($scope.tracking = value);
-					$scope.$apply(document.getElementById("first-tracking-rma").value = value);
-					document.getElementById("rma-number").focus();
-					cordova.plugins.Keyboard.show();
+						$scope.rma = tracking.packages[0].rma; 
+						$scope.rfr = tracking.packages[0].return_exception;
+						$scope.seller = tracking.packages[0].user_id;
+						$scope.weight = tracking.packages[0].weight;
+						$scope.pkgid = tracking.packages[0].id;
+						$scope.pkstatus = tracking.packages[0].status;
+						$scope.pagenumber = 5;
+						$scope.oldphotos = tracking.packages[0].photos;
+						$scope.displayextrafields = tracking.packages[0].barcodes;
 					}
-
-				}else if(typeof tracking.bulk != 'undefined'){
-					$scope.bulktracking = tracking.bulk.tracking;
-					$scope.bulkpricing = tracking.bulk.price;
-					$scope.bulkstatus = tracking.bulk.status;
-					$scope.bulkprice = tracking.bulk.price;
-					$scope.packages = tracking.bulk.packages;
-					$scope.bulkfrom = tracking.bulk.from.name;
-					$scope.bulktoname = tracking.bulk.to.name;
-					$scope.bulktophone = tracking.bulk.to.phone;
-					$scope.bulktostreet1 = tracking.bulk.to.street1;
-					$scope.bulktostreet2 = tracking.bulk.to.street2;
-					$scope.bulktocity = tracking.bulk.to.city;
-					$scope.bulktoprovince = tracking.bulk.to.province;
-					$scope.bulktopostal = tracking.bulk.to.postal_code;
-					$scope.bulktocountry = tracking.bulk.to.country;
-
-					$scope.pagenumber = 6;
-					
-				}else{
-
-					$scope.rma = tracking.packages[0].rma; 
-					$scope.rfr = tracking.packages[0].return_exception;
-					$scope.seller = tracking.packages[0].user_id;
-					$scope.weight = tracking.packages[0].weight;
-					$scope.pkgid = tracking.packages[0].id;
-					$scope.pkstatus = tracking.packages[0].status;
-					$scope.pagenumber = 5;
-					$scope.oldphotos = tracking.packages[0].photos;
-					$scope.displayextrafields = tracking.packages[0].barcodes;
-					jQuery('#package-status-2 option[value="' + tracking.packages[0].status + '"]').prop('selected', true);
-
 				}
 			}).error(function(data, status, headers, config) {
 				alert("something went wrong with the GET request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
@@ -388,16 +392,6 @@ angular.module('warehouse.controllers', ['warehouse.services'])
 			  		
 			  	alert("something went wrong with the PUT request \n \n Data:" + JSON.stringify(data, null, 4) + "\n Status:" + status  + "\n Config:" + JSON.stringify(data, null, 4) + "\n");
 			 });
-		}
-
-	}
-
-	$scope.testMode = function() {
-		if(typeof $scope.testmode  === 'undefined'){
-			$scope.testmode = true;
-		}else{
-			$scope.testmode = !$scope.testmode;
-			window.localStorage['testmode'] = $scope.testmode;
 		}
 
 	}
